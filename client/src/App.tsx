@@ -5,14 +5,25 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 
+// Components
+import { MobileLayout } from "./components/MobileLayout";
+
+// Pages
+import Home from "./pages/Home";
+import Missions from "./pages/Missions";
+import Diary from "./pages/Diary";
+
 function Router() {
   return (
-    <Switch>
-      {/* Add pages below */}
-      {/* <Route path="/" component={Home}/> */}
-      {/* Fallback to 404 */}
-      <Route component={NotFound} />
-    </Switch>
+    <MobileLayout>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/missions" component={Missions} />
+        <Route path="/diary" component={Diary} />
+        {/* Fallback to 404 */}
+        <Route component={NotFound} />
+      </Switch>
+    </MobileLayout>
   );
 }
 
@@ -21,7 +32,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Router />
+        <div className="bg-foreground/5 min-h-[100dvh] flex items-center justify-center">
+          <Router />
+        </div>
       </TooltipProvider>
     </QueryClientProvider>
   );

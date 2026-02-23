@@ -1,38 +1,49 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { db } from "./db";
+import {
+  missions, diaryEntries,
+  type InsertMission,
+  type UpdateMissionRequest,
+  type Mission,
+  type InsertDiaryEntry,
+  type DiaryEntry
+} from "@shared/schema";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getMissions(): Promise<Mission[]>;
+  createMission(mission: InsertMission): Promise<Mission>;
+  updateMission(id: number, updates: UpdateMissionRequest): Promise<Mission>;
+  getDiaryEntries(): Promise<DiaryEntry[]>;
+  createDiaryEntry(entry: InsertDiaryEntry): Promise<DiaryEntry>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+export class DatabaseStorage implements IStorage {
+  async getMissions(): Promise<Mission[]> {
+    return await db.select().from(missions).orderBy(desc(missions.createdAt));
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async createMission(mission: InsertMission): Promise<Mission> {
+    const [newMission] = await db.insert(missions).values(mission).returning();
+    return newMission;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async updateMission(id: number, updates: UpdateMissionRequest): Promise<Mission> {
+    const [updated] = await db.update(missions)
+      .set(updates)
+      .where(eq(missions.id, id))
+      .returning();
+    if (!updated) throw new Error("Mission not found");
+    return updated;
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async getDiaryEntries(): Promise<DiaryEntry[]> {
+    return await db.select().from(diaryEntries).orderBy(desc(diaryEntries.createdAt));
+  }
+
+  async createDiaryEntry(entry: InsertDiaryEntry): Promise<DiaryEntry> {
+    const [newEntry] = await db.insert(diaryEntries).values(entry).returning();
+    return newEntry;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
