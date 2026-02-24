@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Check, Flame, Trophy, Plus, Circle } from "lucide-react";
 import confetti from "canvas-confetti";
 import { useMissions, useCreateMission, useUpdateMission } from "@/hooks/use-missions";
-
 export default function Missions() {
   const { data: missions, isLoading } = useMissions();
   const createMission = useCreateMission();

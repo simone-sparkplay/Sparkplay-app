@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>SparkPlay</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="/icona.png">
+    <link rel="apple-touch-icon" href="/icona.png">
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- HOME -->
+        <section id="screen-home" class="screen active">
+            <div class="hero-container">
+                <img src="home-hero.png" alt="SparkPlay Hero" class="hero-img">
+            </div>
+            <div class="content">
+                <h1>PRONTI?</h1>
+                <button id="btn-inizia" class="btn-primary">INIZIA MISSIONE</button>
+                <div class="stats">
+                    <span>OGGI: <span id="count-oggi">0</span>/3</span>
+                    <span>ETÀ: <span id="val-eta">--</span></span>
+                </div>
+            </div>
+            <button id="btn-goto-diario" class="btn-secondary btn-small">DIARIO</button>
+        </section>
+
+        <!-- ETA -->
+        <section id="screen-eta" class="screen">
+            <div class="content">
+                <h2>QUANTI ANNI HAI?</h2>
+                <div class="grid-2">
+                    <button class="btn-age btn-primary" data-age="5-7">5-7</button>
+                    <button class="btn-age btn-primary" data-age="8-10">8-10</button>
+                </div>
+                <button class="btn-back btn-secondary">INDIETRO</button>
+            </div>
+        </section>
+
+        <!-- GIOCO -->
+        <section id="screen-gioco" class="screen">
+            <div class="header">
+                <h2 id="missione-titolo">MISSIONE</h2>
+                <button id="btn-esci" class="btn-danger btn-small">ESCI</button>
+            </div>
+            <div class="game-container">
+                <div class="mission-card">
+                    <h3 id="passo-titolo">OBIETTIVO</h3>
+                    <p id="passo-testo"></p>
+                </div>
+            </div>
+            <div class="footer-nav">
+                <button id="btn-prev" class="btn-secondary">INDIETRO</button>
+                <span id="passi-indicatore">1/3</span>
+                <button id="btn-next" class="btn-primary">AVANTI</button>
+            </div>
+        </section>
+
+        <!-- GENITORE (GATE) -->
+        <section id="screen-genitore" class="screen">
+            <div class="content">
+                <h2>MISSIONE COMPLETATA!</h2>
+                <p>Genitore, cosa facciamo ora?</p>
+                <div class="gate-math">
+                    <p>Quanto fa 5 + 5?</p>
+                    <input type="number" id="gate-input" placeholder="?">
+                </div>
+                <div class="grid-2">
+                    <button id="btn-altre-3" class="btn-primary">ALTRE 3</button>
+                    <button id="btn-speciale" class="btn-primary">SPECIALE</button>
+                </div>
+                <button id="btn-finisci" class="btn-secondary">FINISCI PER OGGI</button>
+            </div>
+        </section>
+
+        <!-- DIARIO -->
+        <section id="screen-diario" class="screen">
+            <div class="header">
+                <h2>I TUOI RICORDI</h2>
+                <button class="btn-back btn-secondary btn-small">CHIUDI</button>
+            </div>
+            <div class="scroll-area">
+                <ul id="lista-ricordi">
+                    <!-- JS populated -->
+                </ul>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
